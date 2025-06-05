@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Idul Adha - Pixel Adventure</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Idul Adha Game">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1 class="title">🐐 SELAMAT IDUL ADHA 🗡️</h1>
+            <p class="subtitle">Tangkap Kambing untuk Qurban!</p>
+        </div>
+        
+        <div class="game-area">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+            <div class="ui-overlay">
+                <div class="score">Skor: <span id="score">0</span></div>
+                <div class="combo">🔥 Combo: <span id="combo">0</span></div>
+                <div class="lives">❤️ <span id="lives">3</span></div>
+                <div class="timer">⏰ <span id="timer">60</span>s</div>
+                <div class="speed-boost" id="speedBoost" style="display: none;">⚡ SPEED!</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="startBtn" class="pixel-btn">🎮 MULAI GAME</button>
+            <button id="soundBtn" class="pixel-btn">🔊 SUARA</button>
+            <button id="settingsBtn" class="pixel-btn">⚙️ PENGATURAN</button>
+
+            <div class="mobile-controls" id="mobileControls" style="display: none;">
+                <div class="control-pad">
+                    <button class="control-btn" id="upBtn">⬆️</button>
+                    <div class="middle-row">
+                        <button class="control-btn" id="leftBtn">⬅️</button>
+                        <button class="control-btn" id="rightBtn">➡️</button>
+                    </div>
+                    <button class="control-btn" id="downBtn">⬇️</button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <p>🎯 Gunakan ARROW KEYS atau mobile controls untuk bergerak</p>
+                <p id="gameInstructions">🏃 Kejar dan tangkap kambing untuk qurban!</p>
+                <p id="gameObjective">⚡ Semakin cepat menangkap, semakin tinggi skor dan combo!</p>
+                <p>🎁 Kumpulkan power-ups untuk bonus speed dan poin!</p>
+
+            </div>
+        </div>
+        
+        <!-- Settings Modal -->
+        <div class="modal" id="settingsModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>⚙️ PENGATURAN GAME</h2>
+                    <button class="close-btn" id="closeSettings">❌</button>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <h3>⏰ Durasi Game</h3>
+                        <div class="setting-item">
+                            <label for="gameDuration">Waktu (detik):</label>
+                            <select id="gameDuration" class="setting-select">
+                                <option value="30">30 detik (Cepat)</option>
+                                <option value="60" selected>60 detik (Normal)</option>
+                                <option value="90">90 detik (Santai)</option>
+                                <option value="120">120 detik (Panjang)</option>
+                                <option value="180">180 detik (Maraton)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Mode Settings -->
+                    <div class="setting-group">
+                        <h3>🎮 Mode Permainan</h3>
+                        <div class="setting-item">
+                            <label for="gameMode">Pilih Mode:</label>
+                            <select id="gameMode" class="setting-select">
+                                <option value="hunter" selected>🗡️ Mode Penyembelih (Kejar Kambing)</option>
+                                <option value="escape">🐐 Mode Kambing (Lari dari Penyembelih)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Difficulty Settings -->
+                    <div class="setting-group">
+                        <h3>🎯 Tingkat Kesulitan</h3>
+                        <div class="setting-item">
+                            <label for="difficulty">Level:</label>
+                            <select id="difficulty" class="setting-select">
+                                <option value="easy">Mudah (Santai)</option>
+                                <option value="normal" selected>Normal (Seimbang)</option>
+                                <option value="hard">Sulit (Menantang)</option>
+                                <option value="expert">Expert (Sangat Sulit)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Audio Settings -->
+                    <div class="setting-group">
+                        <h3>🎵 Pengaturan Audio</h3>
+                        <div class="setting-item">
+                            <label for="masterVolume">Volume Master:</label>
+                            <input type="range" id="masterVolume" min="0" max="100" value="50" class="setting-slider">
+                            <span id="volumeDisplay">50%</span>
+                        </div>
+                        <div class="setting-item">
+                            <label for="backgroundMusicSelector">Backsound:</label>
+                            <select id="backgroundMusicSelector" class="setting-select">
+                                <option value="assets/audio/takbir.mp3" selected>Takbir (Default)</option>
+                                <option value="none">Tanpa Musik</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="customAudio">Upload Audio Custom:</label>
+                            <input type="file" id="customAudio" accept="audio/*" class="setting-file">
+                        </div>
+                        <div class="setting-item">
+                            <label for="autoTakbir">Auto Play Music:</label>
+                            <input type="checkbox" id="autoTakbir" checked class="setting-checkbox">
+                            <span>Putar musik otomatis saat mulai</span>
+                        </div>
+                        <div class="setting-item">
+                            <label for="musicVolume">Volume Musik:</label>
+                            <input type="range" id="musicVolume" min="0" max="100" value="30" class="setting-slider">
+                            <span id="musicVolumeDisplay">30%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Visual Settings -->
+                    <div class="setting-group">
+                        <h3>🎨 Pengaturan Visual</h3>
+                        <div class="setting-item">
+                            <label for="showParticles">Efek Partikel:</label>
+                            <input type="checkbox" id="showParticles" checked class="setting-checkbox">
+                            <span>Tampilkan efek visual partikel</span>
+                        </div>
+                        <div class="setting-item">
+                            <label for="showStars">Bintang Background:</label>
+                            <input type="checkbox" id="showStars" checked class="setting-checkbox">
+                            <span>Tampilkan bintang berkelap-kelip</span>
+                        </div>
+                        <div class="setting-item">
+                            <label for="colorTheme">Tema Warna:</label>
+                            <select id="colorTheme" class="setting-select">
+                                <option value="classic" selected>Klasik (Hijau-Emas)</option>
+                                <option value="sunset">Sunset (Orange-Merah)</option>
+                                <option value="night">Malam (Biru-Ungu)</option>
+                                <option value="desert">Gurun (Coklat-Kuning)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Gameplay Settings -->
+                    <div class="setting-group">
+                        <h3>🎮 Pengaturan Gameplay</h3>
+                        <div class="setting-item">
+                            <label for="powerUpFreq">Frekuensi Power-up:</label>
+                            <select id="powerUpFreq" class="setting-select">
+                                <option value="0">Tidak Ada</option>
+                                <option value="0.1">Jarang (10%)</option>
+                                <option value="0.3" selected>Normal (30%)</option>
+                                <option value="0.5">Sering (50%)</option>
+                                <option value="0.8">Sangat Sering (80%)</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="playerSpeed">Kecepatan Player:</label>
+                            <select id="playerSpeed" class="setting-select">
+                                <option value="8">Lambat</option>
+                                <option value="10" selected>Normal</option>
+                                <option value="12">Cepat</option>
+                                <option value="15">Sangat Cepat</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistics -->
+                    <div class="setting-group">
+                        <h3>📊 Statistik</h3>
+                        <div class="stats-display">
+                            <div class="stat-item">
+                                <span>Total Permainan:</span>
+                                <span id="totalGames">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Skor Tertinggi:</span>
+                                <span id="highScore">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Combo Terbaik:</span>
+                                <span id="bestCombo">0</span>
+                            </div>
+                        </div>
+                        <button id="resetStats" class="pixel-btn small-btn">🗑️ Reset Statistik</button>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button id="saveSettings" class="pixel-btn">💾 SIMPAN PENGATURAN</button>
+                    <button id="resetSettings" class="pixel-btn">🔄 RESET DEFAULT</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="celebration" id="celebration">
+            <h2>TAKBIR! ALLAHU AKBAR!</h2>
+            <p>Kambing berhasil ditangkap untuk qurban!</p>
+            <div class="fireworks">✨🎆✨</div>
+        </div>
+    </div>
+    
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="assets/audio/takbir.mp3" type="audio/mp3">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmQdBjiS1PHAazQFNY3V9M2BQgoTXbTp7LFR" type="audio/wav">
+    </audio>
+    
+    <!-- Sound Effects Audio -->
+    <audio id="takbirSound">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmQdBjiS1PHAazQFNY3V9M2BQgoTXbTp7LFR" type="audio/wav">
+    </audio>
+    
+    <script type="module" src="src/js/main.js"></script>
+</body>
+</html> 
