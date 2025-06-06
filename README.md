@@ -122,4 +122,4 @@ Game ini dibuat untuk merayakan hari raya Idul Adha dengan cara yang menyenangka
 
 ---
 
-*Game ini dibuat dengan semangat merayakan Idul Adha dan tidak bermaksud menyinggung nilai-nilai agama. Code telah direfactor menggunakan best practices untuk kemudahan maintenance.* 
+*Game ini dibuat dengan semangat merayakan Idul Adha dan tidak bermaksud menyinggung nilai-nilai agama.* 
