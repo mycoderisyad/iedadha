@@ -1,40 +1,6 @@
-# 🐐 Game Idul Adha - Pixel Adventure 🗡️
+# Game Idul Adha - Pixel Adventure 🗡️
 
 Game web interaktif 2D dengan style pixel art untuk merayakan Idul Adha. Mainkan sebagai penyembelih yang mengejar kambing untuk qurban!
-
-## 📁 Struktur Project
-
-```
-iedadha/
-├── index.html                 # Entry point utama
-├── manifest.json             # PWA manifest
-├── README.md                 # Dokumentasi
-├── assets/                   # Asset statis
-│   ├── css/
-│   │   └── styles.css       # Styling utama
-│   └── audio/
-│       └── takbir.mp3       # File audio
-└── src/                     # Source code
-    └── js/
-        ├── main.js          # Entry point JavaScript
-        ├── config/
-        │   └── GameConfig.js # Konfigurasi game
-        ├── core/
-        │   ├── Game.js      # Game engine utama
-        │   └── BackgroundRenderer.js # Rendering background
-        ├── entities/
-        │   ├── Player.js    # Entity pemain
-        │   └── Goat.js      # Entity kambing
-        ├── managers/
-        │   └── SettingsManager.js # Pengaturan game
-        ├── utils/
-        │   ├── AudioManager.js    # Manajemen audio
-        │   └── InputManager.js    # Manajemen input
-        ├── effects/
-        │   └── ParticleSystem.js  # Sistem efek partikel
-        └── ui/
-            └── UIManager.js   # Manajemen UI
-```
 
 ## 🎮 Fitur Game
 
@@ -47,7 +13,7 @@ iedadha/
 - **Settings System**: Pengaturan audio, visual, dan gameplay
 - **Statistics**: Tracking skor dan statistik permainan
 
-## 🎯 Cara Bermain
+### Cara Bermain
 
 1. **Kontrol**:
    - `Arrow Keys` atau `WASD` untuk bergerak
@@ -68,7 +34,7 @@ iedadha/
    - Bonus waktu = sisa detik × 10
    - Bonus combo = level combo × 25
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 ### Method 1: Buka Langsung di Browser
 1. Download semua file dan folder
@@ -88,7 +54,7 @@ php -S localhost:8000
 ```
 Kemudian buka `http://localhost:8000` di browser.
 
-## 🏗️ Arsitektur Code
+## 🏗Arsitektur Code
 
 ### Core Components
 - **Game.js**: Main game engine yang mengatur game loop dan koordinasi antar komponen
